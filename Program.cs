@@ -1,4 +1,5 @@
 ﻿using EscapeFromTheWoods.Database;
+using EscapeFromTheWoods.Managers;
 using System;
 using System.Diagnostics;
 
@@ -16,7 +17,7 @@ namespace EscapeFromTheWoods
 
             string path = @"C:\NET\monkeys";
             Map m1 = new Map(0, 500, 0, 500);
-            Wood w1 = WoodBuilder.GetWood(500, m1, path, repo);
+            Wood w1 = WoodBuilder.GetWood(2000, m1, path, repo);
             w1.PlaceMonkey("Alice", IDgenerator.GetMonkeyID());
             w1.PlaceMonkey("Janice", IDgenerator.GetMonkeyID());
             w1.PlaceMonkey("Toby", IDgenerator.GetMonkeyID());
@@ -38,9 +39,9 @@ namespace EscapeFromTheWoods
             w3.PlaceMonkey("Kobe", IDgenerator.GetMonkeyID());
             w3.PlaceMonkey("Kendra", IDgenerator.GetMonkeyID());
 
-            w1.WriteWoodToDB();
-            w2.WriteWoodToDB();
-            w3.WriteWoodToDB();
+            //WritingManager.WriteWoodToDB(w1);
+            //WritingManager.WriteWoodToDB(w2);
+            //WritingManager.WriteWoodToDB(w3);
 
             w1.Escape();
             w2.Escape();

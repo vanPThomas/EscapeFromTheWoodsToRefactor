@@ -1,5 +1,7 @@
 ﻿using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
+using static MongoDB.Driver.WriteConcern;
 
 namespace EscapeFromTheWoods.Database
 {
@@ -26,6 +28,12 @@ namespace EscapeFromTheWoods.Database
         {
             var collection = database.GetCollection<DBWoodRecord>("woods");
             collection.InsertMany(woods);
+        }
+
+        public void WriteRoute(DBRouteRecord route)
+        {
+            var collection = database.GetCollection<DBRouteRecord>("route");
+            collection.InsertOne(route);
         }
     }
 }

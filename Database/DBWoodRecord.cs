@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EscapeFromTheWoods.Database;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,18 +7,14 @@ namespace EscapeFromTheWoods
 {
     public class DBWoodRecord
     {
-        public DBWoodRecord(int woodID, int treeID, int x, int y)
+        public DBWoodRecord(int woodID, List<DBTreeRecord> trees)
         {
-            this.woodID = woodID;
-            this.treeID = treeID;
-            this.x = x;
-            this.y = y;
+            WoodID = woodID;
+            Trees = trees;
         }
 
-        public int recordID { get; set; }
-        public int woodID { get; set; }
-        public int treeID { get; set; }
-        public int x { get; set; }
-        public int y { get; set; }
+        public int RecordID { get; set; }
+        public int WoodID { get; set; }
+        public List<DBTreeRecord> Trees { get; set; }
     }
 }
