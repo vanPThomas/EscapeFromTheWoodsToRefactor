@@ -35,30 +35,10 @@ namespace EscapeFromTheWoods.Managers
                 new DBMonkeyRecord(monkey.monkeyID, monkey.name),
                 woodRecord
             );
-            //List<DBMonkeyRecord> records = new List<DBMonkeyRecord>();
-            //for (int j = 0; j < route.Count; j++)
-            //{
-            //    records.Add(new DBMonkeyRecord(monkey.monkeyID, monkey.name));
-            //}
-            //db.WriteMonkeys(records);
             db.WriteRoute(routeRecord);
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine($"{woodID}:write db routes {woodID},{monkey.name} end");
         }
-
-        //public static void WriteWoodToDB(Wood wood)
-        //{
-        //    Console.ForegroundColor = ConsoleColor.Green;
-        //    Console.WriteLine($"{wood.woodID}:write db wood {wood.woodID} start");
-        //    List<DBWoodRecord> records = new List<DBWoodRecord>();
-        //    foreach (Tree t in wood.trees)
-        //    {
-        //        records.Add(new DBWoodRecord(wood.woodID, t.treeID, t.x, t.y));
-        //    }
-        //    wood.db.WriteWoods(records);
-        //    Console.ForegroundColor = ConsoleColor.Green;
-        //    Console.WriteLine($"{wood.woodID}:write db wood {wood.woodID} end");
-        //}
 
         public static void WriteEscaperoutesToBitmap(
             List<List<Tree>> routes,
