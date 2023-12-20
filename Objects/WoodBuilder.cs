@@ -1,7 +1,6 @@
 ﻿using EscapeFromTheWoods.Database;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace EscapeFromTheWoods
 {
@@ -9,6 +8,7 @@ namespace EscapeFromTheWoods
     {
         public static Wood GetWood(int size, Map map, string path, MongoDBMonkeyRepo db)
         {
+            // create wood object
             Random r = new Random(100);
             List<Tree> trees = new List<Tree>();
             int n = 0;

@@ -1,13 +1,9 @@
-﻿using System;
+﻿using EscapeFromTheWoods.Database;
+using EscapeFromTheWoods.Managers;
+using EscapeFromTheWoods.Objects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.IO;
-using System.Drawing.Imaging;
-using System.Drawing;
-using EscapeFromTheWoods.Database;
-using EscapeFromTheWoods.Objects;
-using System.Diagnostics;
-using EscapeFromTheWoods.Managers;
 
 namespace EscapeFromTheWoods
 {
@@ -69,8 +65,11 @@ namespace EscapeFromTheWoods
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine($"{woodID}:start {woodID},{monkey.name}");
 
+            // create a library of the trees and check if they're visited
             visited = new Dictionary<int, bool>();
             trees.ForEach(tree => visited.Add(tree.treeID, false));
+
+            // create route starting at the monkey location
             List<Tree> route = new List<Tree>() { monkey.tree };
             do
             {
@@ -78,9 +77,10 @@ namespace EscapeFromTheWoods
                 SortedList<double, List<Tree>> distanceToMonkey =
                     new SortedList<double, List<Tree>>(); //list of trees and how far they are from the monkey
                 (int i, int j) = FindCell(monkey.tree.x, monkey.tree.y);
-                //Look for the closest unvisited tree
+                //check the trees in the current grid
                 ProcessCell(distanceToMonkey, i, j, monkey.tree.x, monkey.tree.y, n);
                 int ring = 0;
+                // nothing in distance to monkey yet? process the ring around it
                 while (distanceToMonkey.Count < n)
                 {
                     ring++;
