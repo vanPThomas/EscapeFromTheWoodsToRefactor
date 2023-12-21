@@ -6,7 +6,7 @@ namespace EscapeFromTheWoods
 {
     public static class WoodBuilder
     {
-        public static Wood GetWood(int size, Map map, string path, MongoDBMonkeyRepo db)
+        public static Wood GetWood(int size, Map map, string path)
         {
             // create wood object
             Random r = new Random(100);
@@ -25,7 +25,7 @@ namespace EscapeFromTheWoods
                     n++;
                 }
             }
-            Wood w = new Wood(IDgenerator.GetWoodID(), trees, map, path, db);
+            Wood w = new Wood(IDgenerator.GetWoodID(), trees, map, path);
             return w;
         }
     }

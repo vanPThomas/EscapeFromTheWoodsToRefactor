@@ -1,4 +1,5 @@
 ﻿using EscapeFromTheWoods.Database;
+using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -14,7 +15,7 @@ namespace EscapeFromTheWoods.Managers
             List<Tree> route,
             int woodID,
             MongoDBMonkeyRepo db,
-            Wood wood
+            DBWoodRecord woodRecord
         )
         {
             Console.ForegroundColor = ConsoleColor.DarkGreen;
@@ -24,20 +25,61 @@ namespace EscapeFromTheWoods.Managers
             {
                 routeTreeRecord.Add(new DBTreeRecord(t.treeID, t.x, t.y));
             }
-            List<DBTreeRecord> treesInWoodRecord = new List<DBTreeRecord>();
-            foreach (Tree t in wood.trees)
-            {
-                treesInWoodRecord.Add(new DBTreeRecord(t.treeID, t.x, t.y));
-            }
-            DBWoodRecord woodRecord = new DBWoodRecord(wood.woodID, treesInWoodRecord);
             DBRouteRecord routeRecord = new DBRouteRecord(
                 routeTreeRecord,
                 new DBMonkeyRecord(monkey.monkeyID, monkey.name),
-                woodRecord
+                woodRecord._id
             );
             db.WriteRoute(routeRecord);
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine($"{woodID}:write db routes {woodID},{monkey.name} end");
+        }
+
+        public static void WriteFullRoute(
+            ObjectId woodId,
+            Dictionary<Monkey, List<Tree>> monkeysToTrees,
+            MongoDBMonkeyRepo db
+        )
+        {
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine($"{woodId}:write db routes {woodId} start");
+
+            DBFullRoutesRecord fullRouteRecord = new DBFullRoutesRecord();
+            fullRouteRecord.woodId = woodId;
+
+            foreach (Monkey monkey in monkeysToTrees.Keys)
+            {
+                DBMonkeyRecord dBMonkeyRecord = new DBMonkeyRecord(monkey.monkeyID, monkey.name);
+                List<DBTreeRecord> routeTreeRecord = new List<DBTreeRecord>();
+                foreach (Tree t in monkeysToTrees[monkey])
+                {
+                    routeTreeRecord.Add(new DBTreeRecord(t.treeID, t.x, t.y));
+                }
+                fullRouteRecord.monkeyRecords.Add(dBMonkeyRecord);
+                fullRouteRecord.treeRecords.Add(routeTreeRecord);
+            }
+            db.WriteFullRoute(fullRouteRecord);
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine($"{woodId}:write db routes {woodId} end");
+        }
+
+        public static ObjectId WriteWoodToDB(Wood wood, MongoDBMonkeyRepo db)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine($"{wood.woodID}:write db wood {wood.woodID} start");
+
+            List<DBTreeRecord> dBTrees = new List<DBTreeRecord>();
+            foreach (Tree t in wood.trees)
+            {
+                dBTrees.Add(new DBTreeRecord(t.treeID, t.x, t.y));
+            }
+            DBWoodRecord dBWoodRecord = new DBWoodRecord(wood.woodID, dBTrees);
+
+            ObjectId generatedWoodId = db.WriteWoods(dBWoodRecord);
+
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine($"{wood.woodID}:write db wood {wood.woodID} end");
+            return generatedWoodId;
         }
 
         public static void WriteEscaperoutesToBitmap(

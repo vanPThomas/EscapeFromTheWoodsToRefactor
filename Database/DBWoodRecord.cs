@@ -1,4 +1,5 @@
 ﻿using EscapeFromTheWoods.Database;
+using MongoDB.Bson;
 using System.Collections.Generic;
 
 namespace EscapeFromTheWoods
@@ -11,8 +12,8 @@ namespace EscapeFromTheWoods
             Trees = trees;
         }
 
-        public int RecordID { get; set; }
         public int WoodID { get; set; }
+        public ObjectId _id { get; set; }
         public List<DBTreeRecord> Trees { get; set; }
     }
 }

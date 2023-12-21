@@ -1,4 +1,6 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 
 namespace EscapeFromTheWoods.Database
@@ -16,22 +18,24 @@ namespace EscapeFromTheWoods.Database
             database = dbClient.GetDatabase("MonkeyDB");
         }
 
-        public void WriteMonkeys(List<DBMonkeyRecord> monkeys)
-        {
-            var collection = database.GetCollection<DBMonkeyRecord>("monkeys");
-            collection.InsertMany(monkeys);
-        }
-
-        public void WriteWoods(List<DBWoodRecord> woods)
+        public ObjectId WriteWoods(DBWoodRecord wood)
         {
             var collection = database.GetCollection<DBWoodRecord>("woods");
-            collection.InsertMany(woods);
+            collection.InsertOne(wood);
+            ObjectId generatedId = wood._id;
+            return generatedId;
         }
 
         public void WriteRoute(DBRouteRecord route)
         {
             var collection = database.GetCollection<DBRouteRecord>("route");
             collection.InsertOne(route);
+        }
+
+        public void WriteFullRoute(DBFullRoutesRecord fullRouteRecord)
+        {
+            var collection = database.GetCollection<DBFullRoutesRecord>("route");
+            collection.InsertOne(fullRouteRecord);
         }
     }
 }
